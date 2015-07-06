@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Task;
 use Illuminate\Http\Request;
-
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Redirect;
 
 class TasksController extends Controller
 {
@@ -20,14 +21,14 @@ class TasksController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     *
-     * @return Response
+     * @return mixed
+     * Get list of tasks
      */
-    public function create()
-    {
-        //
+    public function tasksList(){
+        return Task::select('id','task','status')->get('task');
     }
+
+
 
     /**
      * Store a newly created resource in storage.
@@ -36,7 +37,9 @@ class TasksController extends Controller
      */
     public function store()
     {
-        //
+        // Do stuff.
+
+        return Redirect::route('home');
     }
 
     /**
