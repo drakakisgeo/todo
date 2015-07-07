@@ -3,10 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Task;
-use Illuminate\Http\Request;
-use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\Request;
 
 class TasksController extends Controller
 {
@@ -25,7 +24,7 @@ class TasksController extends Controller
      * Get list of tasks
      */
     public function tasksList(){
-        return Task::select('id','task','status')->get('task');
+        return Task::select('id','task','status')->get();
     }
 
 
@@ -37,43 +36,30 @@ class TasksController extends Controller
      */
     public function store()
     {
-        // Do stuff.
+        //var_dump(Request::all()['task']);
+        $task = new Task();
+        $task->task = Request::all()['task'];
+        $task->save();
 
-        return Redirect::route('home');
+        return Task::select('id','task','status')->get();
     }
 
     /**
-     * Display the specified resource.
+     * @param $id
+     * @param $status
      *
-     * @param  int  $id
-     * @return Response
+     * Change the status of task
      */
-    public function show($id)
-    {
-        //
+    public function statusChanger($id,$status){
+
+        $task = Task::findOrFail($id);
+        $task->status = $status;
+        $task->save();
+
+        return Task::select('id','task','status')->get();
+
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  int  $id
-     * @return Response
-     */
-    public function update($id)
-    {
-        //
-    }
 
     /**
      * Remove the specified resource from storage.
@@ -83,6 +69,8 @@ class TasksController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $task = Task::findOrFail($id);
+        $task->delete();
+        return $this->tasksList();
     }
 }

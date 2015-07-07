@@ -11,14 +11,14 @@
     <div class="row">
         <div class="col-lg-12 text-center">
             {!! Form::open(['route'=>'storeTask','class'=>'inline-form','id'=>'addtask','v-on'=>'submit:addTask']) !!}
-            {!! Form::text('task',null,['class'=>'input-lg inputfull','placeholder'=>'Add your task!','v-model'=>'newTask','el'=>'taskfield']) !!}
+            {!! Form::text('task',null,['class'=>'input-lg inputfull','placeholder'=>'Add your task!','v-model'=>'newTask','v-el'=>'taskfield']) !!}
             {!! Form::submit('Add',['class'=>'btn btn-success btn-lg']) !!}
             {!! Form::close() !!}
         </div>
     </div>
     <div class="row">
         <div class="col-lg-12 text-center">
-            <h4>Remaining tasks: <strong>@{{ tasks.length }}</strong></h4>
+            <h4>All tasks: <strong>@{{ tasks.length }}</strong></h4>
         </div>
     </div>
     <div class="row">
@@ -32,8 +32,10 @@
                 </tr>
                 </thead>
                 <tbody>
-                <tr v-repeat="taskitem:tasks">
-                    <td class="text-center">{!! Form::checkbox('taskid',1,null,['el'=>'@{{taskitem.id}}','v-on'=>'click:completeTask(taskitem.id)']) !!}</td>
+                <tr v-repeat="taskitem:tasks" v-class="completedtask: taskitem.status !=0">
+                    <td class="text-center">
+                        <input type="checkbox" v-attr="checked:taskitem.status !=0" value="1" v-checked="checked: taskitem.status" name="taskid" el="@{{taskitem.id}}" v-on="click:taskAction(taskitem)">
+
                     <td v-on="click: editTask(taskitem)">@{{ taskitem.task }}</td>
                     <td class="text-center"><a href="#" v-on="click:removeTask(taskitem)"><span class="glyphicon glyphicon-trash"></span></a></td>
                 </tr>

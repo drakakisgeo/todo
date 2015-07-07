@@ -25,6 +25,12 @@ h5.subtitle{
   width:90% !important;
 }
 
+tr.completedtask{
+  font-style: italic !important;
+  text-decoration: line-through !important;
+  background-color:#E4FFE8;
+}
+
 #addtask{
   margin-top:20px;
 }

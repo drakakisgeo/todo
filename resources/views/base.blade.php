@@ -3,6 +3,7 @@
 <head>
     <title>Todo Project</title>
     <meta charset="UTF-8">
+    <meta id="token" name="token" value="{{csrf_token()}}">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
     <link rel="stylesheet" href="{{ elixir('css/app.css') }}">
