@@ -24,6 +24,7 @@ new Vue({
             var taskname = {
                 task:this.newTask
             };
+
             this.$http.post('/tasks',taskname,function(tasks){
                 this.$set('tasks',tasks);
             });

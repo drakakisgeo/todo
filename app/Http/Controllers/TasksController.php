@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Repositories\TaskRepositoryInterface;
 use App\Task;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Redirect;
@@ -9,6 +10,17 @@ use Illuminate\Support\Facades\Request;
 
 class TasksController extends Controller
 {
+
+    /**
+     * @var TasksRepository
+     */
+    protected $task;
+
+    public function __construct(TaskRepositoryInterface $task){
+
+        $this->task = $task;
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -24,7 +36,7 @@ class TasksController extends Controller
      * Get list of tasks
      */
     public function tasksList(){
-        return Task::select('id','task','status')->get();
+        return $this->task->getall();
     }
 
 
@@ -36,12 +48,9 @@ class TasksController extends Controller
      */
     public function store()
     {
-        //var_dump(Request::all()['task']);
-        $task = new Task();
-        $task->task = Request::all()['task'];
-        $task->save();
-
-        return Task::select('id','task','status')->get();
+        $taskfrominput = Request::all()['task'];
+        $this->task->add($taskfrominput);
+        return $this->task->getall();
     }
 
     /**
@@ -52,11 +61,8 @@ class TasksController extends Controller
      */
     public function statusChanger($id,$status){
 
-        $task = Task::findOrFail($id);
-        $task->status = $status;
-        $task->save();
-
-        return Task::select('id','task','status')->get();
+        $this->task->changestatus($id,$status);
+        return $this->task->getall();
 
     }
 
@@ -69,8 +75,7 @@ class TasksController extends Controller
      */
     public function destroy($id)
     {
-        $task = Task::findOrFail($id);
-        $task->delete();
-        return $this->tasksList();
+        $this->task->delete($id);
+        return $this->task->getall();
     }
 }

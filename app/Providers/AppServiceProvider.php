@@ -13,7 +13,9 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
+       // $this->app->bind('App\Repositories\TaskRepositoryInterface', 'App\Repositories\DbTaskRepository');
+       $this->app->bind('App\Repositories\TaskRepositoryInterface', 'App\Repositories\ElasticTaskRepository');
+
     }
 
     /**

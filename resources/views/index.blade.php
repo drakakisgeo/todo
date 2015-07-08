@@ -32,7 +32,7 @@
                 </tr>
                 </thead>
                 <tbody>
-                <tr v-repeat="taskitem:tasks" v-class="completedtask: taskitem.status !=0">
+                <tr v-repeat="taskitem:tasks | orderBy 'created_at' false" v-class="completedtask: taskitem.status !=0">
                     <td class="text-center">
                         <input type="checkbox" v-attr="checked:taskitem.status !=0" value="1" v-checked="checked: taskitem.status" name="taskid" el="@{{taskitem.id}}" v-on="click:taskAction(taskitem)">
 
